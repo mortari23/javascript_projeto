@@ -17,6 +17,9 @@
         <input type="text" id="cidade" name="Cidade"><br>
         <label > Estado</label>
         <input type="text" id="estado" name="Estado"><br>
+        <LAbel>ddd:</LAbel>
+        <input type="text" id="ddd" name="DDD">
+      
     </form>
     <script>
         // Função Assicrona que será chamada quando o campo CEP perder foco
@@ -47,12 +50,14 @@
 
                 // Converte a reposta da API para um objeto JSON
                 let endereco = await resposta.json()
+                
 
                 // Preencher os campos 
                 document.getElementById('logradouro').value =endereco.logradouro
                 document.getElementById('bairro').value = endereco.bairro
                 document.getElementById('cidade').value = endereco.localidade
                 document.getElementById('estado'). value = endereco.uf
+                document.getElementById('ddd').value = endereco.ddd
             }catch (erro)
         {
             alert("ERRO AO BUSCAR")
