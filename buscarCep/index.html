@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form name="exercico" action="">
+        <label for="cep">CEP:</label>
+        <input type="text" id="cep" name="cep" onblur="buscarEndereco()"><br>
+        <label>Logradouro :</label>
+        <input type="text" id="logradouro" name="logradouro"><br>
+        <label >Bairro :</label>
+        <input type="text" id="bairro" name="Bairro"><br>
+        <label >Cidade</label>
+        <input type="text" id="cidade" name="Cidade"><br>
+        <label > Estado</label>
+        <input type="text" id="estado" name="Estado"><br>
+    </form>
+    <script>
+        // Função Assicrona que será chamada quando o campo CEP perder foco
+        async function buscarEndereco()
+         {
+            // Remove tudo que não seja numero
+
+            let cep = document.getElementById('cep').value.replace(/\D/g,'')
+            
+            //Verifica se o cep contém exatos 8 digitos
+            if(cep.length !== 8){
+                alert("CEP INVÁLIDO")
+                return
+            }
+
+            try
+            {
+                // FAZ uma requisição HTTP para o API VIA CEP
+                // O AWAIT aguarda até que a resposta seja recebida
+                let resposta = await fetch (`https://viacep.com.br/ws/${cep}/json`)
+
+                // Verifica se a requisição foi bem sucedida
+                if(!resposta.ok)
+                {
+                    alert ("ERRO AO CONSULTAR")
+                    return
+                }
+
+                // Converte a reposta da API para um objeto JSON
+                let endereco = await resposta.json()
+
+                // Preencher os campos 
+                document.getElementById('logradouro').value =endereco.logradouro
+                document.getElementById('bairro').value = endereco.bairro
+                document.getElementById('cidade').value = endereco.localidade
+                document.getElementById('estado'). value = endereco.uf
+            }catch (erro)
+        {
+            alert("ERRO AO BUSCAR")
+        }
+    }
+    </script>
+</body>
+</html>
